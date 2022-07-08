@@ -1,2 +1,27 @@
-package hiber.dao;public class CarDaoImpl {
+package hiber.dao;
+
+import hiber.model.Car;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public class CarDaoImpl implements CarDAO {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @Override
+    public void add(Car car) {
+        sessionFactory.getCurrentSession().persist(car);
+
+    }
+
+    @Override
+    public List<Car> carList() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("SELECT c FROM Car c", Car.class).getResultList();
+    }
 }
